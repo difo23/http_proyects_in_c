@@ -1,0 +1,80 @@
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Node.js Notifications Here: </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        
+        <style>
+        body
+            {
+                background: #333;
+                font-size: 16px;
+                text-align: center;
+                
+            }
+            
+            form
+            {
+                background: #ccc;
+                margin: 1em auto ;
+                width: 60%;
+                border-radius: 1em;  
+                
+            }
+            
+            form input 
+            {
+                font-size: 18px;
+                margin: 1em auto;
+                width: 40%;
+                box-shadow: 0px 5px 5px rgba(0,0,0,0.5);
+            }
+          
+        </style>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="http://localhost:6969/socket.io/socket.io.js"></script>
+       
+        <script>
+            $(document).on("ready", iniciar);
+            
+            function iniciar()
+            {
+                var websocket= io.connect("http://localhost:6969");
+                websocket.on("nombredesdeServidor", recibirMensaje);
+                $("#formulario").("submit", enviarMensaje);
+            
+            }
+            
+            function enviarMensaje()
+            {
+                websocket.emit("nuevoNombre",$("#nombre").val());
+                alert("enviandomensaje: "+$("#nombre").val());
+                $("#nombre").fadeOut();
+                
+            }
+            
+            function recibirMensaje(datosServidor)
+            {
+                $("#formulario label").text("Acaba de entrar: "+dastosServidor);
+            }
+            
+        </script>
+        
+        
+    </head>
+    <body>
+       
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        
+        <form id="formulario">
+            <label> What is your name?</label>
+            <input type="text" id="nombre" placeholder="Tu nombre Completo" required />
+        </form>
+    </body>
+</html>
